@@ -13,6 +13,7 @@ foreach (JsonElement venda in vendas.EnumerateArray())
     string vendedor = venda.GetProperty("vendedor").GetString()!;
     decimal valor = venda.GetProperty("valor").GetDecimal();
 
+    // » Define o percentual de comissão conforme a faixa de valor da venda
     decimal percentual = 0;
 
     if (valor >= 500)
@@ -36,9 +37,16 @@ foreach (JsonElement venda in vendas.EnumerateArray())
     }
 }
 
-Console.WriteLine("Comissão por vendedor:");
+Console.WriteLine("========================================");
+Console.WriteLine("          COMISSÃO DE VENDEDORES");
+Console.WriteLine("========================================");
+Console.WriteLine();
+Console.WriteLine($"{"Vendedor",-25} {"Comissão",14}");
+Console.WriteLine("----------------------------------------");
 
 foreach (var comissao in comissoes)
 {
-    Console.WriteLine($"{comissao.Key}: R$ {comissao.Value:F2}");
+    Console.WriteLine($"{comissao.Key,-25} R$ {comissao.Value,10:F2}");
 }
+
+Console.WriteLine("========================================");

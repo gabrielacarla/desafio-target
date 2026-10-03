@@ -1,6 +1,10 @@
 ﻿using System.Globalization;
 
-Console.Write("Digite o valor: R$ ");
+Console.WriteLine("================================================");
+Console.WriteLine("               CÁLCULO DE JUROS");
+Console.WriteLine("================================================");
+
+Console.Write("\nDigite o valor: R$ ");
 
 if (!decimal.TryParse(
     Console.ReadLine(),
@@ -25,22 +29,31 @@ if (!DateTime.TryParseExact(
     return;
 }
 
-Console.WriteLine($"\nValor: R$ {valor:F2}");
-Console.WriteLine($"Vencimento: {dataVencimento:dd/MM/yyyy}");
-
 DateTime dataAtual = DateTime.Today;
-
 int diasAtraso = (dataAtual - dataVencimento.Date).Days;
 
-if (diasAtraso <= 0)
+decimal taxaJuros = 0.025m;
+decimal juros = 0;
+
+if (diasAtraso > 0)
 {
-    Console.WriteLine("Dias em atraso: 0");
-    Console.WriteLine("Juros: R$ 0,00");
-    return;
+    // » Calcula os juros de 2,5% ao dia sobre o período em atraso
+    juros = valor * taxaJuros * diasAtraso;
+}
+else
+{
+    diasAtraso = 0;
 }
 
-decimal taxaJuros = 0.025m;
-decimal juros = valor * taxaJuros * diasAtraso;
+decimal valorTotal = valor + juros;
 
-Console.WriteLine($"Dias em atraso: {diasAtraso}");
-Console.WriteLine($"Juros: R$ {juros:F2}");
+Console.WriteLine("\n------------------------------------------------");
+Console.WriteLine("               RESUMO DO CÁLCULO");
+Console.WriteLine("------------------------------------------------");
+Console.WriteLine($"{"Valor original:",-20} R$ {valor,12:F2}");
+Console.WriteLine($"{"Vencimento:",-20} {dataVencimento:dd/MM/yyyy}");
+Console.WriteLine($"{"Dias em atraso:",-20} {diasAtraso}");
+Console.WriteLine($"{"Taxa diária:",-20} 2,5%");
+Console.WriteLine($"{"Juros calculados:",-20} R$ {juros,12:F2}");
+Console.WriteLine($"{"Valor com juros:",-20} R$ {valorTotal,12:F2}");
+Console.WriteLine("================================================");

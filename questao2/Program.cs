@@ -6,7 +6,14 @@ using JsonDocument documento = JsonDocument.Parse(json);
 
 JsonElement estoque = documento.RootElement.GetProperty("estoque");
 
-Console.WriteLine("Produtos em estoque:");
+Console.WriteLine("================================================");
+Console.WriteLine("              CONTROLE DE ESTOQUE");
+Console.WriteLine("================================================");
+Console.WriteLine();
+Console.WriteLine("PRODUTOS DISPONÍVEIS");
+Console.WriteLine();
+Console.WriteLine($"{"Código",-8} {"Produto",-31} {"Estoque",7}");
+Console.WriteLine("------------------------------------------------");
 
 foreach (JsonElement produto in estoque.EnumerateArray())
 {
@@ -14,9 +21,10 @@ foreach (JsonElement produto in estoque.EnumerateArray())
     string descricao = produto.GetProperty("descricaoProduto").GetString()!;
     int quantidade = produto.GetProperty("estoque").GetInt32();
 
-    Console.WriteLine($"{codigo} - {descricao}: {quantidade}");
+    Console.WriteLine($"{codigo,-8} {descricao,-31} {quantidade,7}");
 }
 
+Console.WriteLine("------------------------------------------------");
 Console.Write("\nDigite o código do produto: ");
 
 if (!int.TryParse(Console.ReadLine(), out int codigoInformado))
@@ -47,10 +55,14 @@ if (!produtoEncontrado)
 string descricaoProduto = produtoSelecionado.GetProperty("descricaoProduto").GetString()!;
 int estoqueAtual = produtoSelecionado.GetProperty("estoque").GetInt32();
 
-Console.WriteLine($"Produto selecionado: {descricaoProduto}");
+Console.WriteLine($"\nProduto: {descricaoProduto}");
 Console.WriteLine($"Estoque atual: {estoqueAtual}");
 
-Console.Write("\nTipo de movimentação (E - Entrada | S - Saída): ");
+Console.WriteLine("\nTipo de movimentação");
+Console.WriteLine("[E] Entrada");
+Console.WriteLine("[S] Saída");
+Console.Write("\nOpção: ");
+
 string tipoMovimentacao = Console.ReadLine()?.Trim().ToUpper() ?? "";
 
 if (tipoMovimentacao != "E" && tipoMovimentacao != "S")
@@ -67,6 +79,7 @@ if (!int.TryParse(Console.ReadLine(), out int quantidadeMovimentada) || quantida
     return;
 }
 
+// » Atualiza o estoque conforme o tipo de movimentação
 int estoqueFinal;
 
 if (tipoMovimentacao == "E")
@@ -84,15 +97,20 @@ else
     estoqueFinal = estoqueAtual - quantidadeMovimentada;
 }
 
+// » Gera um identificador numérico único para a movimentação
 long idMovimentacao = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
 string descricaoMovimentacao = tipoMovimentacao == "E"
     ? "Entrada de estoque"
     : "Saída de estoque";
 
-Console.WriteLine("\nMovimentação realizada:");
-Console.WriteLine($"ID: {idMovimentacao}");
-Console.WriteLine($"Produto: {descricaoProduto}");
-Console.WriteLine($"Tipo: {descricaoMovimentacao}");
-Console.WriteLine($"Quantidade: {quantidadeMovimentada}");
-Console.WriteLine($"Estoque final: {estoqueFinal}");
+Console.WriteLine("\n================================================");
+Console.WriteLine("            MOVIMENTAÇÃO CONCLUÍDA");
+Console.WriteLine("================================================");
+Console.WriteLine($"ID:               {idMovimentacao}");
+Console.WriteLine($"Produto:          {descricaoProduto}");
+Console.WriteLine($"Movimentação:     {descricaoMovimentacao}");
+Console.WriteLine($"Quantidade:       {quantidadeMovimentada}");
+Console.WriteLine($"Estoque anterior: {estoqueAtual}");
+Console.WriteLine($"Estoque final:    {estoqueFinal}");
+Console.WriteLine("================================================");
