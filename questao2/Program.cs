@@ -50,7 +50,7 @@ int estoqueAtual = produtoSelecionado.GetProperty("estoque").GetInt32();
 Console.WriteLine($"Produto selecionado: {descricaoProduto}");
 Console.WriteLine($"Estoque atual: {estoqueAtual}");
 
-Console.Write("\nTipo de movimentação (E - Entrada / S - Saída): ");
+Console.Write("\nTipo de movimentação (E - Entrada | S - Saída): ");
 string tipoMovimentacao = Console.ReadLine()?.Trim().ToUpper() ?? "";
 
 if (tipoMovimentacao != "E" && tipoMovimentacao != "S")
@@ -84,4 +84,15 @@ else
     estoqueFinal = estoqueAtual - quantidadeMovimentada;
 }
 
+long idMovimentacao = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+string descricaoMovimentacao = tipoMovimentacao == "E"
+    ? "Entrada de estoque"
+    : "Saída de estoque";
+
+Console.WriteLine("\nMovimentação realizada:");
+Console.WriteLine($"ID: {idMovimentacao}");
+Console.WriteLine($"Produto: {descricaoProduto}");
+Console.WriteLine($"Tipo: {descricaoMovimentacao}");
+Console.WriteLine($"Quantidade: {quantidadeMovimentada}");
 Console.WriteLine($"Estoque final: {estoqueFinal}");
