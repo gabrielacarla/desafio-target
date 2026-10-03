@@ -36,6 +36,8 @@ foreach (JsonElement venda in vendas.EnumerateArray())
     }
 }
 
+Console.WriteLine("Comissão por vendedor:");
+
 foreach (var comissao in comissoes)
 {
     Console.WriteLine($"{comissao.Key}: R$ {comissao.Value:F2}");
